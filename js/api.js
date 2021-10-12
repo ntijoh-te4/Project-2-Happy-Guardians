@@ -1,14 +1,12 @@
+async function readFile(file) {
+    return await fetch(file)
+        .then(response => response.text())
+        .then(text => text)
+}
+
 async function getToken() {
-    let token = '';
-    const file = new XMLHttpRequest();
-    await file.open('GET', '../api.key', false)
-    file.onreadystatechange = function () {
-        if(file.readyState === 4 && file.status === 200 || file.status == 0) {
-            token = file.responseText;
-        }
-    }
-    file.send(null);
-    return token;
+    let response = await readFile('../api.key');
+    return response;
 }
 
 async function getRepositories(user) {
