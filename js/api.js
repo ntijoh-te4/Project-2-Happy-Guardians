@@ -14,3 +14,9 @@ async function getRepositories(user) {
         .then(result => result.json())
         .then(data => data);
 }
+
+async function getForks(user, repository) {
+    return await fetch('https://api.github.com/repos/' + user + '/' + repository + '/forks', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }})
+        .then(result => result.json())
+        .then(data => data);
+}
