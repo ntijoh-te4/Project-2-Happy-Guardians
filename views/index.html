@@ -21,10 +21,81 @@
     </nav>
 
   <div class="container">
-    <h1>Welcome to Teacher-O-Matic!</h1>
-    <p>Enter your GitHub username in the header field</p>
+    <div class="row">
+
+    </div>
   </div>
 
-    <script type="text/javascript" src="../public/materialize/js/materialize.min.js"></script>
+  <template class="index">
+    <h1>Welcome to Teacher-O-Matic!</h1>
+    <p>Enter your GitHub username in the header field</p>
+  </template>
+
+  <template class="repos">
+      <div class="col s4">
+          <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                  <span class="card-title"></span>
+                  <p class="fork-count"></p>
+              </div>
+              <div class="card-action">
+                  <a href="">Show Forks</a>
+                  <a href="">Show on GitHub</a>
+              </div>
+          </div>
+  </template>
+
+  <template class="forks">
+    <div class="col s6">
+      <div class="card">
+          <div class="card-content black-text">
+              <span class="card-title"></span>
+              <div class="card darken-3 grey">
+                  <code class="white-text">
+                  </code> 
+              </div>
+              <a>Show on GitHub</a>
+              <br>
+              <p></p>
+              <p></p>
+              <p></p>
+              <br>
+              <br>
+              <div class="card-action">
+                  <div class="row">
+                      <div class="input-field col s12">
+                      <textarea id="textarea1" class="materialize-textarea"></textarea>
+                      <label for="textarea1">Comment</label>
+                      </div>
+                  </div>
+                  <form action="#">
+                      <p>
+                      <label>
+                          <input name="group1" type="radio" checked />
+                          <span><i class="small material-icons">done</i>Klar</span>
+                      </label>
+                      </p>
+                      <p>
+                      <label>
+                          <input name="group1" type="radio" />
+                          <span><i class="small material-icons">refresh</i>Åtgärd krävs</span>
+                      </label>
+                      </p>
+                      <p>
+                      <label>
+                          <input name="group1" type="radio" />
+                          <span><i class="small material-icons">visibility_off</i>Ej Bedömd</span>
+                      </label>
+                      </p>
+                  </form>
+              </div>
+              <a class="waves-effect waves-light btn">SAVE</a>
+          </div>
+      </div>
+    </div>
+  </template>
+
+  <script type="text/javascript" src="../public/materialize/js/materialize.min.js"></script>
+  <script type="text/javascript" src="../js/api.js"></script>
 </body>
 </html>
