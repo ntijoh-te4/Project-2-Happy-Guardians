@@ -12,7 +12,11 @@ async function getToken() {
 async function getRepositories(user) {
     return await fetch('https://api.github.com/users/' + user + '/repos', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() } })
         .then(result => result.json())
-        .then(data => data)
+        .then(data => data);
 }
 
-console.log("connected")
+async function getForks(user, repository) {
+    return await fetch('https://api.github.com/repos/' + user + '/' + repository + '/forks', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }})
+        .then(result => result.json())
+        .then(data => data);
+}
