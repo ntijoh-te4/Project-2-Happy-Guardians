@@ -13,7 +13,7 @@
             <div class="input-field"> <!--ADD ACTION-->
               <input id="search" type="search" required>
               <label class="label-icon" for="search"><i class="material-icons prefix" style="top: 0;">account_circle</i></label>
-              <i class="material-icons">close</i>
+              <i class="material-icons" id="close">close</i>
             </div>
           </form>
         </div>
@@ -32,14 +32,18 @@
 
   <template class="repos">
       <div class="col s4">
-          <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                  <span class="card-title"></span>
-                  <p class="fork-count"></p>
-              </div>
-              <div class="card-action">
-                  <a href="">Show Forks</a>
-                  <a class="git-link" href="">Show on GitHub</a>
+          <div class="card white">
+              <div class="card-content">
+                  <span class="card-title truncate"></span>
+                  <br>
+                  <div style="display: flex; justify-content: space-between;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <a class="fork-link orange-text">Show Forks</a>
+                      <p>&nbsp|&nbsp</p>
+                      <a class="git-link orange-text" href="">Show on GitHub</a>
+                    </div>
+                    <p class="fork-count grey-text"></p>
+                  </div>
               </div>
           </div>
   </template>
@@ -94,7 +98,7 @@
     </div>
   </template>
 
-  <script type="text/javascript" src="../public/materialize/js/materialize.min.js"></script>
+  <script type="text/javascript" src="../public/materialize/js/materialize.js"></script>
   <script type="text/javascript" src="../js/api.js"></script>
   <script type="text/javascript" src="../js/script.js"></script>
 
