@@ -33,20 +33,12 @@ async function containsManifest(user, repository) {
         .then(data => data.filter(file => file.name === '.manifest.json').length !== 0);
 }
 
-/*
- * Fungerar inte för tillfället, problem uppstår på andra förfrågningen
- *
- * Access to fetch at 'https://api.github.com/repos/itggot-TE4/smallest_of_two/contents/.manifest.json?ref=master' from origin 'http://localhost:5500' has been blocked by CORS policy: 
- * Request header field access-control-allow-origin is not allowed by Access-Control-Allow-Headers in preflight response.
- * 
- * TODO: Ändra headers i preflight responsen
- */
 async function getManifest(user, repository) {
-    const manifestUrl = await fetch('https://api.github.com/repos/' + user + '/' + repository + '/contents', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }})
-        .then(result => result.json())
-        .then(data => data.filter(file => file.name === '.manifest.json')[0].url);
-    console.log(manifestUrl);
-    return await fetch(manifestUrl, { method: 'GET', headers: { 'Authorization': 'token ' + await getToken(), 'Access-Control-Allow-Origin': '*' }})
-        .then(result => result.json())
-        .then(data => data);
+    let response = await fetch('https://api.github.com/repos/' + user + '/' + repository + '/contents', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }});
+    let json = await response.json();
+    let info = json.filter(file => file.name === '.manifest.json')[0];
+
+    response = await fetch(info.url, { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }});
+    json = await response.json();
+    return JSON.parse(atob(json.content.replace(/(\r\n|\n|\r)/gm, '')));
 }
