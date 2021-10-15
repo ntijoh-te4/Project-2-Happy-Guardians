@@ -56,7 +56,7 @@ async function getForks(user, repository) {
  */
 async function containsManifest(user, repository) {
   const result = await fetch(`https://api.github.com/repos/${user}/${repository}/contents`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
-  const json = result.json();
+  const json = await result.json();
   return json.filter((file) => file.name === '.manifest.json').length !== 0;
 }
 
