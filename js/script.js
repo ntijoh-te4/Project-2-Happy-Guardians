@@ -14,6 +14,13 @@ function showIndex() {
     box.append(clone);
 }
 
+function showError() {
+    box.innerHTML = '';
+    const template = document.querySelector('.user-error');
+    const clone = template.content.cloneNode(true);
+    box.append(clone);
+}
+
 async function loopRepos(username) {
     box.innerHTML = '';
     let result;
@@ -42,10 +49,11 @@ async function loopForks(username, repository) {
     });  
 }
 
-input.addEventListener('input', (e) => {
+input.addEventListener('input', async (e) => {
     box.innerHTML = '';
-    if (isUserValid(input.value)) loopRepos(input.value);
-    else showIndex();
+    if (await isUserValid(input.value)) loopRepos(input.value);
+    else if (input.value === "") showIndex();
+    else showError();
 });
 
 body.addEventListener('click', (e) => {
