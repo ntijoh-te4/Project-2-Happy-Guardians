@@ -77,6 +77,20 @@ async function getManifest(user, repository) {
 }
 
 /**
+ * Checks if specified repository contains solution file
+ * @param {string} user Repository owner
+ * @param {string} repository Repository name
+ * @returns {boolean} True / False
+ */
+
+async function containsAssignmentSolution(user, repository) {
+  const manifest = await getManifest(user, repository);
+
+  const response = await fetch(`https://api.github.com/repos/${user}/${repository}/contents/${manifest.filePath}?ref=master`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  return response.ok;
+}
+
+/**
  * Gets assignment solution from specified repository
  * @param {string} user Repository owner
  * @param {string} repository Repository name
