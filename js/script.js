@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import('./api');
+// eslint-disable-next-line import/extensions
+import('./api.js');
 const body = document.querySelector('body');
 const box = document.querySelector('.row');
 const input = document.querySelector('input');
