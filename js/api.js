@@ -78,3 +78,17 @@ async function getManifest(user, repository) {
     json = await response.json();
     return JSON.parse(atob(json.content.replace(/(\r\n|\n|\r)/gm, '')));
 }
+
+/**
+ * Gets assignment solution from specified repository
+ * @param {string} user Repository owner
+ * @param {string} repository Repository name
+ * @returns {string} Assignment solution as string
+ */
+ async function getAssignmentSolution(user, repository) {
+    const manifest = await getManifest(user, repository);
+
+    const response = await fetch('https://api.github.com/repos/' + user + '/' + repository + '/contents/' + manifest.filePath + '?ref=master', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }});
+    const json = await response.json();
+    return atob(json.content.replace(/(\r\n|\n|\r)/gm, ''));
+}
