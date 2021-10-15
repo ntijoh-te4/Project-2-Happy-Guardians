@@ -53,13 +53,21 @@ async function loopForks(username, repository) {
       const clone = template.content.cloneNode(true);
       clone.querySelector('.card-title').textContent = element.full_name;
       clone.querySelector('.git-link').href = element.clone_url;
-      code = await getAssignmentSolution(element.owner.login, element.name);
-      const codeEachLine = code.split('\n');
-      codeEachLine.forEach((line) => {
-        const row = document.createElement('p');
-        // line.replaceAll(' ', '&nbsp');
-        row.textContent = line;
-        clone.querySelector('code').appendChild(row);
+      if (containsAssignmentSolution(element.owner.login, element.name)) {
+        code = await getAssignmentSolution(element.owner.login, element.name);
+        const codeEachLine = code.split('\n');
+        codeEachLine.forEach((line) => {
+          const row = document.createElement('p');
+          row.innerHTML = line.replaceAll(' ', '&nbsp;');
+          clone.querySelector('code').appendChild(row);
+        });
+      }
+      const manifest = await getManifest(element.owner.login, element.name);
+      await manifest.tests.forEach((test) => {
+        const codeTests = clone.querySelector('.tests');
+        const testRow = document.createElement('p');
+        testRow.textContent = `Test "${test.description}":`; // TODO: passed or not
+        codeTests.appendChild(testRow);
       });
       box.appendChild(clone);
     }
