@@ -1,12 +1,12 @@
+/* eslint-disable no-unused-vars */
 /**
  * Gets file contents
  * @param {string} file File path
  * @returns {string} File contents
  */
 async function readFile(file) {
-    return await fetch(file)
-        .then(response => response.text())
-        .then(text => text)
+  const result = await fetch(file);
+  return result.text();
 }
 
 /**
@@ -14,8 +14,7 @@ async function readFile(file) {
  * @returns {string} Token
  */
 async function getToken() {
-    let response = await readFile('../api.key');
-    return response;
+  return readFile('../api.key');
 }
 
 /**
@@ -24,8 +23,8 @@ async function getToken() {
  * @returns {boolean} True / False
  */
 async function isUserValid(user) {
-    const response = await fetch('https://api.github.com/users/' + user, { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() } })
-    return response.ok;
+  const response = await fetch(`https://api.github.com/users/${user}`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  return response.ok;
 }
 
 /**
@@ -34,9 +33,8 @@ async function isUserValid(user) {
  * @returns {JSON[]} Array of repositories as JSON objects
  */
 async function getRepositories(user) {
-    return await fetch('https://api.github.com/users/' + user + '/repos', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() } })
-        .then(result => result.json())
-        .then(data => data);
+  const result = await fetch(`https://api.github.com/users/${user}/repos`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  return result.json();
 }
 
 /**
@@ -46,9 +44,8 @@ async function getRepositories(user) {
  * @returns {JSON[]} Array of repositories as JSON objects
  */
 async function getForks(user, repository) {
-    return await fetch('https://api.github.com/repos/' + user + '/' + repository + '/forks', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }})
-        .then(result => result.json())
-        .then(data => data);
+  const result = await fetch(`https://api.github.com/repos/${user}/${repository}/forks`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  return result.json();
 }
 
 /**
@@ -58,9 +55,9 @@ async function getForks(user, repository) {
  * @returns {boolean} True / False
  */
 async function containsManifest(user, repository) {
-    return await fetch('https://api.github.com/repos/' + user + '/' + repository + '/contents', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }})
-        .then(result => result.json())
-        .then(data => data.filter(file => file.name === '.manifest.json').length !== 0);
+  const result = await fetch(`https://api.github.com/repos/${user}/${repository}/contents`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  const json = result.json();
+  return json.filter((file) => file.name === '.manifest.json').length !== 0;
 }
 
 /**
@@ -70,13 +67,13 @@ async function containsManifest(user, repository) {
  * @returns {JSON} Manifest as JSON object
  */
 async function getManifest(user, repository) {
-    let response = await fetch('https://api.github.com/repos/' + user + '/' + repository + '/contents', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }});
-    let json = await response.json();
-    let info = json.filter(file => file.name === '.manifest.json')[0];
+  let response = await fetch(`https://api.github.com/repos/${user}/${repository}/contents`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  let json = await response.json();
+  const info = json.filter((file) => file.name === '.manifest.json')[0];
 
-    response = await fetch(info.url, { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }});
-    json = await response.json();
-    return JSON.parse(atob(json.content.replace(/(\r\n|\n|\r)/gm, '')));
+  response = await fetch(info.url, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  json = await response.json();
+  return JSON.parse(atob(json.content.replace(/(\r\n|\n|\r)/gm, '')));
 }
 
 /**
@@ -85,10 +82,10 @@ async function getManifest(user, repository) {
  * @param {string} repository Repository name
  * @returns {string} Assignment solution as string
  */
- async function getAssignmentSolution(user, repository) {
-    const manifest = await getManifest(user, repository);
+async function getAssignmentSolution(user, repository) {
+  const manifest = await getManifest(user, repository);
 
-    const response = await fetch('https://api.github.com/repos/' + user + '/' + repository + '/contents/' + manifest.filePath + '?ref=master', { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() }});
-    const json = await response.json();
-    return atob(json.content.replace(/(\r\n|\n|\r)/gm, ''));
+  const response = await fetch(`https://api.github.com/repos/${user}/${repository}/contents/${manifest.filePath}?ref=master`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
+  const json = await response.json();
+  return atob(json.content.replace(/(\r\n|\n|\r)/gm, ''));
 }
