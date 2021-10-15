@@ -45,6 +45,7 @@ async function loopRepos(username) {
 
 async function loopForks(username, repository) {
   box.innerHTML = '';
+  let code;
   const result = await getForks(username, repository);
   const template = document.querySelector('.forks');
   await result.forEach(async (element) => {
@@ -52,6 +53,14 @@ async function loopForks(username, repository) {
       const clone = template.content.cloneNode(true);
       clone.querySelector('.card-title').textContent = element.full_name;
       clone.querySelector('.git-link').href = element.clone_url;
+      code = await getAssignmentSolution(element.owner.login, element.name);
+      const codeEachLine = code.split('\n');
+      codeEachLine.forEach((line) => {
+        const row = document.createElement('p');
+        // line.replaceAll(' ', '&nbsp');
+        row.textContent = line;
+        clone.querySelector('code').appendChild(row);
+      });
       box.appendChild(clone);
     }
   });
