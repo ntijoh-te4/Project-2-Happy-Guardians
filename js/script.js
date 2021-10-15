@@ -14,13 +14,19 @@ function showIndex() {
     box.append(clone);
 }
 
+function showError() {
+    box.innerHTML = '';
+    const template = document.querySelector('.user-error');
+    const clone = template.content.cloneNode(true);
+    box.append(clone);
+}
+
 async function loopRepos(username) {
     box.innerHTML = '';
     let result;
     await getRepositories(username).then((res) => result = res)       
     const template = document.querySelector(".repos");
     result.forEach(element => {
-        console.log(element)
         const clone = template.content.cloneNode(true);
         clone.querySelector(".card-title").textContent = element.name;
         clone.querySelector(".fork-count").textContent = element.forks_count;
@@ -43,9 +49,11 @@ async function loopForks(username, repository) {
     });  
 }
 
-input.addEventListener('input', (e) => {
-    if (input.value === "") showIndex();
-    else loopRepos(input.value);
+input.addEventListener('input', async (e) => {
+    box.innerHTML = '';
+    if (await isUserValid(input.value)) loopRepos(input.value);
+    else if (input.value === "") showIndex();
+    else showError();
 });
 
 body.addEventListener('click', (e) => {
@@ -53,8 +61,8 @@ body.addEventListener('click', (e) => {
         input.value = "";
         showIndex();
     }
-    if (e.target.className === "fork-link") {
-        const repoName = e.target.parentElement.querySelector(".card-title").textContent;
+    if (e.target.className === "fork-link orange-text") {
+        const repoName = e.target.parentElement.parentElement.parentElement.querySelector(".card-title").textContent;
         loopForks(input.value, repoName);
         console.log("aa")
     }
