@@ -10,9 +10,8 @@ async function getToken() {
 }
 
 async function isUserValid(user) {
-    return await fetch('https://api.github.com/users/' + user, { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() } })
-        .then(result => result.json())
-        .then(data => data.message !== 'Not Found');
+    const response = await fetch('https://api.github.com/users/' + user, { method: 'GET', headers: { 'Authorization': 'token ' + await getToken() } })
+    return response.ok;
 }
 
 async function getRepositories(user) {
