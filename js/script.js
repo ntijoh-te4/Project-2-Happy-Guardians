@@ -62,13 +62,23 @@ async function loopForks(username, repository) {
           clone.querySelector('code').appendChild(row);
         });
       }
-      const manifest = await getManifest(element.owner.login, element.name);
-      await manifest.tests.forEach((test) => {
-        const codeTests = clone.querySelector('.tests');
-        const testRow = document.createElement('p');
-        testRow.textContent = `Test "${test.description}":`; // TODO: passed or not
-        codeTests.appendChild(testRow);
-      });
+
+      const testResults = await getAssignmentTests(element.owner.login, element.name);
+      const codeTests = clone.querySelector('.tests');
+      if (testResults.length > 0) {
+        testResults.forEach((test) => {
+          const testRow = document.createElement('p');
+          let message;
+          if (Object.values(test)[0]) message = 'Passed';
+          else message = 'Failed';
+          testRow.textContent = `${Object.keys(test)[0]}: ${message}`;
+          codeTests.appendChild(testRow);
+        });
+      } else {
+        const errorRow = document.createElement('p');
+        errorRow.textContent = 'Unable to test assignment';
+        codeTests.appendChild(errorRow);
+      }
       box.appendChild(clone);
     }
   });
