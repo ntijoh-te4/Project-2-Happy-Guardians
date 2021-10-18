@@ -82,7 +82,6 @@ async function getManifest(user, repository) {
  * @param {string} repository Repository name
  * @returns {boolean} True / False
  */
-
 async function containsAssignmentSolution(user, repository) {
   const manifest = await getManifest(user, repository);
 
@@ -102,4 +101,24 @@ async function getAssignmentSolution(user, repository) {
   const response = await fetch(`https://api.github.com/repos/${user}/${repository}/contents/${manifest.filePath}?ref=master`, { method: 'GET', headers: { Authorization: `token ${await getToken()}` } });
   const json = await response.json();
   return atob(json.content.replace(/(\r\n|\n|\r)/gm, ''));
+}
+
+/**
+ * Runs all tests for specified repository
+ * @param {string} user Repository owner
+ * @param {string} repository Repository name
+ * @returns {JSON} JSON containing test names paired with a boolean based on if the test passed
+ */
+async function getAssignmentTests(user, repository) {
+  const result = [];
+  const manifest = await getManifest(user, repository);
+  const solution = await getAssignmentSolution(user, repository);
+
+  manifest.tests.forEach(async (test) => {
+    const args = test.arguments.join(', ');
+    // eslint-disable-next-line no-eval
+    result.push(JSON.parse(`{"${test.description}":${await eval(`${solution}${manifest.functionName}(${args}) === ${test.expected};`)}}`));
+  });
+
+  return result;
 }
