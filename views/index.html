@@ -4,7 +4,8 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="../public/materialize/css/materialize.min.css"  media="screen,projection"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="privatecss">
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
   </head>
 <body>
       
@@ -58,28 +59,23 @@
       <div class="card">
           <div class="card-content black-text">
               <span class="card-title"></span>
-              <div class="card darken-3 grey">
-                  <code class="white-text"></code> 
+              <pre style="margin: -1.7rem 0 -2.5rem 0;">
+                <code class="javascript card">
+                </code>
+              </pre>
+              <div style="padding-bottom: 1rem;">
+                <a class="git-link">Show on GitHub</a>
               </div>
-              <a class="git-link">Show on GitHub</a>
-              <br>
               <div class="tests"></div>
               <br>
               <br>
               <div class="card-action">
-                <div class="CommentsList">
-                  <ul>
-                    <label for="CommentsList">Comments</label>
-                    
-                  </ul>
-                </div>
-                  <div class="row">
-                      <div class="input-field col s12">
-                      <textarea id="textarea1" class="materialize-textarea"></textarea>
-
-                      <label for="textarea1">Comment</label>
-                      </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="textarea1" class="materialize-textarea"></textarea>
+                    <label for="textarea1">Comment</label>
                   </div>
+                </div>
                   <form action="#">
                       <p>
                       <label>
@@ -110,8 +106,8 @@
   <script type="text/javascript" src="../public/materialize/js/materialize.js"></script>
   <script type="text/javascript" src="../js/api.js"></script>
   <script type="text/javascript" src="../js/script.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 
 </body>
 </html>
-
-<script type="text/javascript" src="../js/api.js"></script>

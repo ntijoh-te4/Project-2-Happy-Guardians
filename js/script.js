@@ -55,14 +55,9 @@ async function loopForks(username, repository) {
       clone.querySelector('.git-link').href = element.clone_url;
       if (containsAssignmentSolution(element.owner.login, element.name)) {
         code = await getAssignmentSolution(element.owner.login, element.name);
-        const codeEachLine = code.split('\n');
-        codeEachLine.forEach((line) => {
-          const row = document.createElement('p');
-          row.innerHTML = line.replaceAll(' ', '&nbsp;');
-          clone.querySelector('code').appendChild(row);
-        });
+        clone.querySelector('code.javascript').textContent = code;
+        hljs.highlightElement(clone.querySelector('code.javascript'));
       }
-
       const testResults = await getAssignmentTests(element.owner.login, element.name);
       const codeTests = clone.querySelector('.tests');
       if (testResults.length > 0) {
@@ -76,7 +71,7 @@ async function loopForks(username, repository) {
         });
       } else {
         const errorRow = document.createElement('p');
-        errorRow.textContent = 'Unable to test assignment';
+        errorRow.textContent = 'Unable to test assignment.';
         codeTests.appendChild(errorRow);
       }
       box.appendChild(clone);
