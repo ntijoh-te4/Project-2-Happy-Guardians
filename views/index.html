@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet"
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-    <link  rel="stylesheet" href="privatecss.css">
   </head>
 <body>
       
@@ -16,7 +15,7 @@
             <div class="input-field">
               <input id="search" type="search" required>
               <label class="label-icon" for="search"><i class="material-icons prefix" style="top: 0;">account_circle</i></label>
-              <i class="material-icons" id="close">close</i>
+              <i class="material-icons clear" id="close">close</i>
             </div>
           </form>
         </div>
@@ -62,12 +61,15 @@
               <span class="card-title"></span>
               <pre style="margin: -1.7rem 0 -2.5rem 0;">
                 <code class="javascript card">
+
                 </code>
               </pre>
               <div style="padding-bottom: 1rem;">
                 <a class="git-link">Show on GitHub</a>
               </div>
-              <div class="tests"></div>
+              <div class="tests">
+
+              </div>
               <br>
               <br>
               <div class="card-action">
@@ -104,9 +106,9 @@
     </div>
   </template>
 
-  <script type="text/javascript" src="../public/materialize/js/materialize.js"></script>
   <script type="text/javascript" src="../js/api.js"></script>
   <script type="text/javascript" src="../js/script.js"></script>
+  <script type="text/javascript" src="../public/materialize/js/materialize.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
 
